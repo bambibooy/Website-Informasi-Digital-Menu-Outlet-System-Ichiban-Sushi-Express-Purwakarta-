@@ -58,12 +58,17 @@ class CategoryController extends Controller
         }
 
         $nextSort = (Category::max('sort_order') ?? 0) + 1;
+        $newSort = isset($validated['sort_order']) && $validated['sort_order'] !== '' ? (int) $validated['sort_order'] : $nextSort;
+
+        // Geser kategori lain yang sort_order-nya >= $newSort agar tidak ada yang double
+        Category::where('sort_order', '>=', $newSort)
+            ->increment('sort_order');
 
         $category = Category::create([
             'name' => $validated['name'],
             'slug' => $slug,
             'image' => $imagePath,
-            'sort_order' => isset($validated['sort_order']) && $validated['sort_order'] !== '' ? (int) $validated['sort_order'] : $nextSort,
+            'sort_order' => $newSort,
         ]);
 
         $category->loadCount('menus');
@@ -107,7 +112,24 @@ class CategoryController extends Controller
 
         $category->name = $newName;
         if (isset($validated['sort_order']) && $validated['sort_order'] !== '') {
-            $category->sort_order = (int) $validated['sort_order'];
+            $newSort = (int) $validated['sort_order'];
+            $oldSort = $category->sort_order;
+
+            // Hanya re-order jika sort_order benar-benar berubah
+            if ($newSort !== $oldSort) {
+                if ($newSort < $oldSort) {
+                    // Pindah ke atas: geser yang di antara newSort..oldSort-1 ke bawah (+1)
+                    Category::where('id', '!=', $category->id)
+                        ->whereBetween('sort_order', [$newSort, $oldSort - 1])
+                        ->increment('sort_order');
+                } else {
+                    // Pindah ke bawah: geser yang di antara oldSort+1..newSort ke atas (-1)
+                    Category::where('id', '!=', $category->id)
+                        ->whereBetween('sort_order', [$oldSort + 1, $newSort])
+                        ->decrement('sort_order');
+                }
+                $category->sort_order = $newSort;
+            }
         }
 
         if ($request->hasFile('image')) {

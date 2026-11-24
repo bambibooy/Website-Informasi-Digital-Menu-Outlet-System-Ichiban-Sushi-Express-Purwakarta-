@@ -958,15 +958,14 @@
 
       try{
         if(editingCatId){
-          const updated = await updateCategoryOnServer(editingCatId, formData);
-          const idx = categories.findIndex(c => c.id === editingCatId);
-          if(idx !== -1) categories[idx] = updated;
+          await updateCategoryOnServer(editingCatId, formData);
           showToast("Kategori berhasil diperbarui");
         }else{
-          const created = await createCategoryOnServer(formData);
-          categories.push(created);
+          await createCategoryOnServer(formData);
           showToast("Kategori baru berhasil ditambahkan");
         }
+        // Reload semua data kategori dari server agar sort_order sinkron
+        try { categories = await fetchCategories(); } catch(e) { console.error(e); }
         closeCategoryModal();
         updateCategorySelectOptions();
         renderCategoryList();
