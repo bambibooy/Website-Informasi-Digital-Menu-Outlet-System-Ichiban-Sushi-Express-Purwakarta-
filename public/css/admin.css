@@ -936,6 +936,38 @@ tbody td {
   padding: 4px;
 }
 
+/* Layout Proporsional Kolom Tabel Kategori Carousel */
+#view-kategori table th:nth-child(1),
+#view-kategori table td:nth-child(1) {
+  width: 80px;
+  min-width: 70px;
+}
+
+#view-kategori table th:nth-child(2),
+#view-kategori table td:nth-child(2) {
+  width: 32%;
+  min-width: 140px;
+}
+
+#view-kategori table th:nth-child(3),
+#view-kategori table td:nth-child(3) {
+  width: 28%;
+  min-width: 120px;
+}
+
+#view-kategori table th:nth-child(4),
+#view-kategori table td:nth-child(4) {
+  width: 22%;
+  min-width: 100px;
+  white-space: nowrap;
+}
+
+#view-kategori table th:nth-child(5),
+#view-kategori table td:nth-child(5) {
+  width: 110px;
+  min-width: 90px;
+}
+
 .sort-badge {
   display: inline-block;
   padding: 3px 10px;
@@ -1744,7 +1776,7 @@ select,
   }
 
   #view-kategori table {
-    min-width: 620px !important;
+    min-width: 500px !important;
     width: 100%;
   }
 

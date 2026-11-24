@@ -773,7 +773,7 @@
     }
 
     if(items.length === 0){
-      tbody.innerHTML = `<tr class="empty-row"><td colspan="6">Belum ada kategori carousel yang cocok. Klik "Tambah Kategori" untuk membuat baru.</td></tr>`;
+      tbody.innerHTML = `<tr class="empty-row"><td colspan="5">Belum ada kategori carousel yang cocok. Klik "Tambah Kategori" untuk membuat baru.</td></tr>`;
       return;
     }
 
@@ -789,7 +789,6 @@
           </td>
           <td><strong>${escapeHtml(cat.name)}</strong></td>
           <td><span class="kategori-pill" style="font-family:monospace;font-size:12px;">${escapeHtml(cat.slug || '')}</span></td>
-          <td><span class="sort-badge">#${cat.sort_order ?? 0}</span></td>
           <td><span style="font-weight:700;color:var(--ink);">${menuCount} menu</span></td>
           <td>
             <div class="action-cell">
@@ -906,14 +905,14 @@
       document.getElementById('category-modal-submit').textContent = "Simpan Perubahan";
       inputCatNama.value = cat.name;
       inputCatSlug.value = cat.slug || '';
-      inputCatSort.value = cat.sort_order ?? 0;
+      if(inputCatSort) inputCatSort.value = cat.sort_order ?? 0;
       resetCatFotoField(cat.image_url || null);
     }else{
       document.getElementById('category-modal-title').textContent = "Tambah Kategori Carousel";
       document.getElementById('category-modal-submit').textContent = "Simpan";
       catForm.reset();
       const nextSort = categories.length > 0 ? Math.max(...categories.map(c => Number(c.sort_order) || 0)) + 1 : 1;
-      inputCatSort.value = nextSort;
+      if(inputCatSort) inputCatSort.value = nextSort;
       resetCatFotoField(null);
     }
     if(catOverlay) catOverlay.classList.add('show');
@@ -947,7 +946,9 @@
       const formData = new FormData();
       formData.append('name', nama);
       formData.append('slug', inputCatSlug.value.trim());
-      formData.append('sort_order', inputCatSort.value);
+      if(inputCatSort && inputCatSort.value !== '') {
+        formData.append('sort_order', inputCatSort.value);
+      }
       if(selectedCatFotoFile) formData.append('image', selectedCatFotoFile);
       if(removeCatFotoFlag) formData.append('hapus_image', '1');
 
@@ -958,14 +959,15 @@
 
       try{
         if(editingCatId){
-          await updateCategoryOnServer(editingCatId, formData);
+          const updated = await updateCategoryOnServer(editingCatId, formData);
+          const idx = categories.findIndex(c => c.id === editingCatId);
+          if(idx !== -1) categories[idx] = updated;
           showToast("Kategori berhasil diperbarui");
         }else{
-          await createCategoryOnServer(formData);
+          const created = await createCategoryOnServer(formData);
+          categories.push(created);
           showToast("Kategori baru berhasil ditambahkan");
         }
-        // Reload semua data kategori dari server agar sort_order sinkron
-        try { categories = await fetchCategories(); } catch(e) { console.error(e); }
         closeCategoryModal();
         updateCategorySelectOptions();
         renderCategoryList();

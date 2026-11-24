@@ -162,7 +162,7 @@
             <table>
               <thead>
                 <tr>
-                  <th>Foto Icon</th><th>Nama Kategori</th><th>Slug</th><th>Urutan</th><th>Jumlah Menu</th><th>Aksi</th>
+                  <th>Foto Icon</th><th>Nama Kategori</th><th>Slug</th><th>Jumlah Menu</th><th>Aksi</th>
                 </tr>
               </thead>
               <tbody id="kategori-tbody"></tbody>
@@ -281,15 +281,9 @@
         <input type="text" id="input-cat-nama" placeholder="Contoh: Ramen, Bento Set, atau Dessert" required>
         <div class="form-error-msg">Nama kategori wajib diisi.</div>
       </div>
-      <div class="form-row-2">
-        <div class="form-group" id="fg-cat-slug">
-          <label>Slug (URL Identifier)</label>
-          <input type="text" id="input-cat-slug" placeholder="Otomatis terisi jika kosong">
-        </div>
-        <div class="form-group" id="fg-cat-sort">
-          <label>Urutan Tampil (Sort Order)</label>
-          <input type="number" id="input-cat-sort" min="0" placeholder="1">
-        </div>
+      <div class="form-group" id="fg-cat-slug">
+        <label>Slug (URL Identifier)</label>
+        <input type="text" id="input-cat-slug" placeholder="Otomatis terisi jika kosong">
       </div>
 
       <!-- Foto Icon Kategori (Tampil di Carousel) -->
