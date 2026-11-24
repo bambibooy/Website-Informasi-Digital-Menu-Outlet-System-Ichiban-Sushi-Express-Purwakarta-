@@ -45,7 +45,13 @@ const DEFAULT_MENU_DATA = {
         image: "images/tori_katsu_ramen.png",
         desc: "Ramen dengan topping ayam katsu crispy, telur, nori dan sayuran segar.",
       },
-      { sold: true },
+      {
+        name: "Spicy Beef Ramen",
+        price: 46200,
+        image: "images/spicy_gyuniku_ramen.png",
+        desc: "Ramen kuah pedas dengan topping irisan daging sapi empuk, telur, dan nori segar.",
+        sold: true,
+      },
     ],
   },
 
@@ -502,26 +508,31 @@ function renderMenuItems(key) {
 
   items.forEach((item, index) => {
     const delay = (index % 8) * 0.06;
+    const isSold = Boolean(item.sold);
 
-    if (item.sold) {
-      const soldCard = document.createElement("div");
-      soldCard.className = "menu-card-sold min-h-[140px] reveal-fade-up";
-      soldCard.style.transitionDelay = `${delay}s`;
-      soldCard.textContent = "SOLD";
-      menuGrid.appendChild(soldCard);
-      return;
+    const card = document.createElement(isSold ? "div" : "button");
+    if (!isSold) {
+      card.type = "button";
     }
-
-    const card = document.createElement("button");
-    card.type = "button";
-    card.className = "menu-card reveal-fade-up";
+    card.className = `menu-card reveal-fade-up ${isSold ? "is-sold" : ""}`;
     card.style.transitionDelay = `${delay}s`;
+
+    const imgSrc = item.image || "images/logo_putih.png";
+    const itemName = item.name || "Menu Hidangan";
+    const itemPrice = item.price ? formatPrice(item.price) : "Habis";
+
     card.innerHTML = `
-      <img src="${item.image}" alt="${item.name}" />
-      <div class="menu-name">${item.name}</div>
-      <div class="menu-price">${formatPrice(item.price)}</div>
+      <div class="menu-img-wrap">
+        <img src="${imgSrc}" alt="${itemName}" />
+      </div>
+      <div class="menu-name">${itemName}</div>
+      <div class="menu-price">${itemPrice}</div>
+      ${isSold ? `<span class="sold-badge">SOLD</span>` : ""}
     `;
-    card.addEventListener("click", () => openMenuModal(item));
+
+    if (!isSold) {
+      card.addEventListener("click", () => openMenuModal(item));
+    }
     menuGrid.appendChild(card);
   });
 
