@@ -905,16 +905,13 @@ img {
    STATUS MENU: SOLD (HABIS) - STEMPEL STIKER / CORNER BADGE
    ========================================================== */
 .menu-card.is-sold {
-  cursor: not-allowed;
-  user-select: none;
+  cursor: pointer;
 }
 
 .menu-card.is-sold:hover,
 .menu-card.is-sold:active,
 .menu-card.is-sold:focus-visible {
-  transform: none;
-  box-shadow: 0 4px 14px rgba(219, 30, 36, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04);
-  border-color: rgba(219, 30, 36, 0.2);
+  transform: translateY(-3px);
 }
 
 /* Overlay dihapus — kartu tetap terang, hanya badge SOLD yg tampil */
@@ -951,6 +948,27 @@ img {
   bottom: 0.75rem;
   right: 0.75rem;
   transform: rotate(-10deg);
+}
+
+/* Badge SOLD di dalam Modal Detail Menu */
+.modal-sold-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #e63946 0%, #c8102e 100%);
+  color: #ffffff;
+  font-family: var(--font-poppins);
+  font-weight: 800;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  padding: 0.3rem 0.85rem;
+  border-radius: 0.45rem;
+  border: 1.5px solid #ffffff;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.25), 0 2px 6px rgba(200, 16, 46, 0.4);
+  transform: rotate(6deg);
+  text-transform: uppercase;
+  margin: 0 auto 0.5rem auto;
+  user-select: none;
 }
 
 /* ==========================================================

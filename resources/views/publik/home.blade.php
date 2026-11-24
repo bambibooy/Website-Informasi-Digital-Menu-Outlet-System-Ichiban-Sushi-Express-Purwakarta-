@@ -190,6 +190,7 @@
       <svg xmlns="http://www.w3.org/2000/svg" class="icon-xs" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
     </button>
     <img id="menu-modal-img" src="" alt="" class="modal-img" />
+    <span id="menu-modal-sold-badge" class="modal-sold-badge" style="display:none;">SOLD</span>
     <h3 id="menu-modal-name" class="modal-name"></h3>
     <p id="menu-modal-price" class="modal-price"></p>
     <p id="menu-modal-desc" class="modal-desc"></p>

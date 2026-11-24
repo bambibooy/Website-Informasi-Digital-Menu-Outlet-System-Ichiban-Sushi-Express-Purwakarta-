@@ -510,10 +510,8 @@ function renderMenuItems(key) {
     const delay = (index % 8) * 0.06;
     const isSold = Boolean(item.sold);
 
-    const card = document.createElement(isSold ? "div" : "button");
-    if (!isSold) {
-      card.type = "button";
-    }
+    const card = document.createElement("button");
+    card.type = "button";
     card.className = `menu-card reveal-fade-up ${isSold ? "is-sold" : ""}`;
     card.style.transitionDelay = `${delay}s`;
 
@@ -530,9 +528,7 @@ function renderMenuItems(key) {
       ${isSold ? `<span class="sold-badge">SOLD</span>` : ""}
     `;
 
-    if (!isSold) {
-      card.addEventListener("click", () => openMenuModal(item));
-    }
+    card.addEventListener("click", () => openMenuModal(item));
     menuGrid.appendChild(card);
   });
 
@@ -558,6 +554,12 @@ function openMenuModal(item) {
   menuModalName.textContent = item.name;
   menuModalPrice.textContent = formatPrice(item.price);
   menuModalDesc.textContent = item.desc || "Menu pilihan lezat dari Ichiban Sushi.";
+
+  /* Tampilkan / sembunyikan badge SOLD di dalam modal */
+  const modalSoldBadge = document.getElementById("menu-modal-sold-badge");
+  if (modalSoldBadge) {
+    modalSoldBadge.style.display = item.sold ? "inline-flex" : "none";
+  }
 
   menuModal.classList.remove("hidden");
   menuModal.classList.add("flex");
