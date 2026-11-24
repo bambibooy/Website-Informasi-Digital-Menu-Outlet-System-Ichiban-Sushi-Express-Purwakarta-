@@ -18,9 +18,6 @@
     #about-left, #about-right, #about-mascot { opacity: 1 !important; transform: none !important; }
   </style>
 </noscript>
-<script>
-  window.__LOGIN_URL__ = @json(route('admin.login'));
-</script>
 </head>
 
 <body>

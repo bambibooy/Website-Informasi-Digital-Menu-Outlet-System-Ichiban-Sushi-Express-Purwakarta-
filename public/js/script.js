@@ -708,34 +708,3 @@ setActiveCategory(activeCategory);
 renderHours();
 initScrollReveal();
 playTypingAnimation();
-
-/* ============================ PINTU RAHASIA ADMIN (DOUBLE CLICK / TAP LOGO) ============================ */
-(function setupSecretAdminDoor() {
-  const logoLinks = document.querySelectorAll(".site-header .logo");
-  let lastLogoTapTime = 0;
-
-  const redirectToAdminLogin = (e) => {
-    if (e) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
-    const loginUrl = window.__LOGIN_URL__ || "/admin/login";
-    window.location.href = loginUrl;
-  };
-
-  logoLinks.forEach((logo) => {
-    // Desktop: Double click pada logo
-    logo.addEventListener("dblclick", redirectToAdminLogin);
-
-    // Mobile / Touchscreen: Double tap (2 kali ketukan cepat di bawah 350ms)
-    logo.addEventListener("touchend", (e) => {
-      const currentTime = new Date().getTime();
-      const tapInterval = currentTime - lastLogoTapTime;
-
-      if (tapInterval > 0 && tapInterval < 350) {
-        redirectToAdminLogin(e);
-      }
-      lastLogoTapTime = currentTime;
-    });
-  });
-})();
